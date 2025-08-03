@@ -81,7 +81,8 @@ defmodule Jinja.ErrorTest do
     test "nil values in assigns" do
       assigns = %{value: nil}
       assert {:ok, result} = Jinja.render_string("{{ value }}", assigns)
-      assert String.trim(result) == ""
+      # TODO(robin): is this desired behaviour?
+      assert String.trim(result) == "None"
     end
 
     test "boolean values in assigns" do

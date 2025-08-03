@@ -229,11 +229,13 @@ defmodule Jinja do
     |> Pythonx.decode()
   end
 
-  defp encode(obj) when is_binary(obj), do: Pythonx.NIF.unicode_from_string(obj)
-  defp encode(obj) when is_map(obj), do: encode(Enum.map(obj, fn {k, v} -> {k, encode(v)} end))
-  defp encode(obj), do: Pythonx.encode!(obj)
-
   defp put_glob(globals, name, value) do
-    Map.put(globals, to_string(name), encode(value))
+    Map.put(globals, to_string(name), Pythonx.encode!(value))
+  end
+end
+
+defimpl Pythonx.Encoder, for: BitString do
+  def encode(string, _opts) do
+    Pythonx.NIF.unicode_from_string(string)
   end
 end
