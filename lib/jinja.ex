@@ -52,7 +52,7 @@ defmodule Jinja do
 
   @doc """
   Renders a template string with given assigns.
-  
+
       iex> Jinja.render_string("<h1>hewwo {{ name }}</h1>", %{"name" => "world"})
       {:ok, "<h1>hewwo world</h1>"}
 
@@ -64,7 +64,7 @@ defmodule Jinja do
 
   @doc """
   Loads a template with the given name and source.
-  
+
       iex> Jinja.load_template("page", \"""
       <html><body>{% block body %}{% endblock %}</body></html>
       \""")
@@ -83,10 +83,10 @@ defmodule Jinja do
   def load_template(name, source) when is_binary(name) and is_binary(source) do
     GenServer.call(__MODULE__, {:load_template, name, source})
   end
-  
+
   @doc """
   Renders a previously loaded template with given assigns.
-  
+
       iex> Jinja.render_template("post", %{title: "hewwo world"})
       {:ok, "<html><body>hewwo world</body></html>"}
 
@@ -135,16 +135,17 @@ defmodule Jinja do
       :path -> {:path, init_path_loader(opts)}
     end
   rescue
-    e -> raise "Failed to initialize Jinja. Make sure Pythonx is configured with the Jinja2 dependency. Got: #{inspect(e)}"
+    e ->
+      raise "Failed to initialize Jinja. Make sure Pythonx is configured with the Jinja2 dependency. Got: #{inspect(e)}"
   end
 
   defp init_dict_loader do
     initialise("""
     from jinja2 import Environment, DictLoader, select_autoescape
-    
+
     templates = {}
     loader = DictLoader(templates)
-    
+
     env = Environment(
       loader=loader,
       autoescape=select_autoescape(['html', 'htm', 'xml'])
@@ -153,12 +154,13 @@ defmodule Jinja do
   end
 
   defp init_path_loader(opts) do
-    search_path = Keyword.get(opts, :from)
-      || raise "when using loader: :path, please provide the search path via the :from option"
+    search_path =
+      Keyword.get(opts, :from) ||
+        raise "when using loader: :path, please provide the search path via the :from option"
 
     initialise("""
     from jinja2 import Environment, FileSystemLoader, select_autoescape
-    
+
     env = Environment(
       loader=FileSystemLoader('#{search_path}'),
       autoescape=select_autoescape(['html', 'htm', 'xml'])
@@ -176,7 +178,7 @@ defmodule Jinja do
       execute(globals, """
       env.from_string(source).render(assigns)
       """)
-      
+
     {:reply, {:ok, rendered}, state}
   rescue
     error -> {:reply, {:error, error}, state}
@@ -193,7 +195,7 @@ defmodule Jinja do
     env.loader = DictLoader(templates)
     True
     """)
-      
+
     {:reply, :ok, state}
   rescue
     error -> {:reply, {:error, error}, state}

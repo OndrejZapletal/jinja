@@ -44,7 +44,7 @@ defmodule Jinja.ErrorTest do
     test "very large template" do
       large_template = String.duplicate("{{ name }} ", 1000)
       assigns = %{name: "test"}
-      
+
       assert {:ok, result} = Jinja.render_string(large_template, assigns)
       assert String.contains?(result, "test")
     end
@@ -59,15 +59,15 @@ defmodule Jinja.ErrorTest do
           }
         }
       }
-      
-      assert {:ok, "deep_value"} = 
-        Jinja.render_string("{{ level1.level2.level3.value }}", deep_assigns)
+
+      assert {:ok, "deep_value"} =
+               Jinja.render_string("{{ level1.level2.level3.value }}", deep_assigns)
     end
 
     test "unicode and special characters" do
       template = "Hello {{ name }}! 🌍"
       assigns = %{name: "世界"}
-      
+
       assert {:ok, result} = Jinja.render_string(template, assigns)
       assert String.contains?(result, "世界")
       assert String.contains?(result, "🌍")
