@@ -40,7 +40,7 @@ defmodule Jinja do
 
   """
   use GenServer
-  
+
   defstruct [:loader, :globals]
 
   import Structo
@@ -233,6 +233,8 @@ defmodule Jinja do
     Map.put(globals, to_string(name), Pythonx.encode!(value))
   end
 end
+
+Code.compiler_options(ignore_module_conflict: true)
 
 defimpl Pythonx.Encoder, for: BitString do
   def encode(string, _opts) do
