@@ -4,6 +4,9 @@ defmodule Jinja do
 
   This library provides a public API for working with Jinja templates in Elixir.
   This is not a port of Jinja, but rather a wrapper that runs using `Pythonx`.
+  
+  See <https://jinja.palletsprojects.com/en/stable/templates/> for a guide on
+  template syntax.
 
   ## Usage
 
@@ -26,7 +29,7 @@ defmodule Jinja do
   from. When configured, the `load_template/2` function will be unavailable.
 
       children = [
-        {Jinjq,
+        {Jinja,
           loader: :path,
           from: Application.app_dir(:your_app, ~w(lib your_app_web templates))
         }

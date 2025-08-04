@@ -6,7 +6,7 @@ defmodule Jinja.MixProject do
 
   def project do
     [
-      name: "Jinja2",
+      name: "Jinja",
       app: :jinja,
       version: "0.0.1",
       elixir: "~> 1.16",
