@@ -42,7 +42,7 @@ defmodule Jinja.MixProject do
   defp deps do
     [
       {:structo, "~> 0.2.0"},
-      {:pythonx, "~> 0.4.5"},
+      {:pythonx, github: "OndrejZapletal/pythonx", override: true},
       {:ex_doc, "~> 0.34", only: :dev, runtime: false, warn_if_outdated: true},
     ]
   end

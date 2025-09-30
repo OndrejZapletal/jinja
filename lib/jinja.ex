@@ -241,8 +241,3 @@ end
 
 Code.compiler_options(ignore_module_conflict: true)
 
-defimpl Pythonx.Encoder, for: BitString do
-  def encode(string, _opts) do
-    Pythonx.NIF.unicode_from_string(string)
-  end
-end
